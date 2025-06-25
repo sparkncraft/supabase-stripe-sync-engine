@@ -550,6 +550,7 @@ export class StripeSync {
         break
       case 'payment_intent':
         paymentIntents = await this.syncPaymentIntents(params)
+        break
       case 'plan':
         plans = await this.syncPlans(params)
         break
@@ -1130,7 +1131,7 @@ export class StripeSync {
       update "${this.config.schema}"."subscription_items"
       set deleted = true where id=any(:ids::text[]);
       `)({ ids })
-      const { rowCount } = await await this.postgresClient.query(prepared.text, prepared.values)
+      const { rowCount } = await this.postgresClient.query(prepared.text, prepared.values)
       return { rowCount: rowCount || 0 }
     } else {
       return { rowCount: 0 }
